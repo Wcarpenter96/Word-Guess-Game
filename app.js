@@ -1,28 +1,39 @@
-var word = "hello";
+var wordChoice = ["hello", "world"];
 var triesLeft = 12;
 var correct = [];
 var incorrect = [];
-var letter = "r";
+var letter;
 
-FillCorrect();
+PickWord(wordChoice);
+FillBlank(correct);
 
+document.onkeydown = function (event) {
+    letter = event.key;
+    SearchWord(word, letter);
+    if (SearchWord(word, letter) === false) {
+        AddIncorrect(incorrect, letter);
+    }
+    document.querySelector('#letterGuess').innerHTML = letter;
+    document.querySelector('#triesLeft').innerHTML = triesLeft;
+    document.querySelector('#correctGuess').innerHTML = correct;
+    document.querySelector('#incorrectGuess').innerHTML = incorrect;
+    if (!(correct.indexOf("_") > -1)) {
+        document.querySelector('#win').innerHTML = "YOU WON";
+    }
+    if (triesLeft === 0) {
+        document.querySelector('#lose').innerHTML = "GAME OVER";
+    }
+};
 
-SearchWord(word, letter);
-if (SearchWord(word, letter) === false) {
-    AddIncorrect(incorrect, letter);
+function PickWord(choices) {
+    var randInt = 1
+    word = choices[randInt];
 }
-
-console.log(correct);
-console.log(incorrect);
-console.log(triesLeft);
-
-
-function FillCorrect() {
+function FillBlank(arr) {
     for (let i = 0; i < word.length; i++) {
-        correct.push("_")
+        arr.push("_")
     }
 }
-
 function SearchWord(search, guess) {
     var isLetter = false;
     for (let i = 0; i < word.length; i++) {
@@ -33,20 +44,12 @@ function SearchWord(search, guess) {
     }
     return isLetter;
 }
-
 function AddIncorrect(search, guess) {
-    if (search.length == 0) {
+    if (search.indexOf(guess) > -1) {
+        console.log("Already guessed!");
+    } else {
         search.push(guess);
         triesLeft--;
-    } else {
-        for (let i = 0; i < search.length; i++) {
-            if (guess === search[i]) {
-                console.log("Already guessed!");
-            } else {
-                search.push(guess);
-                triesLeft--;
-            }
-        }
     }
 }
 
