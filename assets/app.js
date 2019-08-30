@@ -5,6 +5,33 @@ var wordChoice = ["miles davis", "bill evans", "john coltrane", "duke ellington"
     "oscar peterson", "ray charles", "frank sinatra", "stan getz",
     "louis armstrong", "buddy rich", "keith jarrett"];
 
+var Hints = ["He made his professional debut as a member of saxophonist Charlie Parker's bebop quintet from 1944 to 1948",
+            "He played in a trio with Scott LaFaro and Paul Motian",
+            "He received a Pulitzer Prize in 2007",
+            "He gained a national profile through the Cotton Club in Harlem",
+            "A blazingly fast bebop virtuoso",
+            "He formed the bebop six",
+            "He started his career with Donald Byrd",
+            "He is the second-most-recorded jazz composer of all time",
+            "A well-known pioneer of both jazz and pop singing",
+            "His orchestra was first recorded in 1936",
+            "This singer won fourteen Grammy Awards",
+            "He received an honorary degree from Kenyon College in 2019",
+            "The King of Swing",
+            "He was known for his crossover jazz fusion style",
+            "He made his acting debut in the film Hell's Horizon",
+            "He was the drummer for Fletcher Henderson's and Billy Eckstine's big bands",
+            "He taught piano and improvisation in Toronto, Canada",
+            "He put out two country albums in 1962",
+            "He has sold more than 150 million records worldwide",
+            "The Sound",
+            "He formed the hot five in 1925",
+            "He was a broadway star at only four years old",
+            "This pianist was heavily influenced by Western classical music"]
+
+
+    
+
 document.querySelector('#instructions').innerHTML = "Press any key to begin...";
 
 // User initializes game
@@ -12,15 +39,18 @@ document.onkeydown = function (event) {
     
     // Variables
     var gameOver = false;
-    var triesLeft = 10;
+    var triesLeft = 6;
     var correct = [];
     var incorrect = [];
 
     // Setup
-    PickWord(wordChoice);
+    var randInt = Math.floor(Math.random() * wordChoice.length);
+    word = wordChoice[randInt];
+    hint = Hints[randInt];
     console.log(`The cat is ${word}`);
     FillBlank(correct);
     PrintCorrect();
+    document.querySelector('#hint').innerHTML = hint;
     document.querySelector('#instructions').innerHTML = "Guess a letter";
 
     // User guesses a letter
@@ -40,11 +70,7 @@ document.onkeydown = function (event) {
             }
         }
     }
-    // Picks a random string from an array
-    function PickWord(choices) {
-        var randInt = Math.floor(Math.random() * 20);
-        word = choices[randInt];
-    }
+
     // Fills characters of an array with underscores
     function FillBlank(arr) {
         for (let i = 0; i < word.length; i++) {
@@ -92,6 +118,7 @@ document.onkeydown = function (event) {
         if (!(correct.indexOf("_") > -1)) {
             document.querySelector('#triesLeft').innerHTML = "";
             document.querySelector('#incorrectGuess').innerHTML = "";
+            document.querySelector('#hint').innerHTML = "";
             document.querySelector('#instructions').innerHTML = "You named that cat! Press any key to play again...";
             gameOver = true;
         }
@@ -99,6 +126,7 @@ document.onkeydown = function (event) {
         if (triesLeft === 0) {
             document.querySelector('#triesLeft').innerHTML = "";
             document.querySelector('#incorrectGuess').innerHTML = "";
+            document.querySelector('#hint').innerHTML = "";
             document.querySelector('#instructions').innerHTML = `The cat was ${word.toUpperCase()}! Press any key to play again...`;
             gameOver = true;
         }
